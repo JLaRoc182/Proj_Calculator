@@ -52,100 +52,75 @@ const btnSubtract = document.querySelector('#btnSubtract');
 const btnMultiply = document.querySelector('#btnMultiply');
 const btnDivide = document.querySelector('#btnDivide');
 
-/* Displays the text contents of a particular button when pushed */
-/* function btnPush(button) {
-button.addEventListener("click", () => {
-
-let oldDiv = document.getElementById('resultDisplay');
-while(oldDiv.firstChild){
-     oldDiv.removeChild(oldDiv.firstChild);
-}    
-const div = document.createElement('div');
-div.textContent = button.textContent;
-resultDisplay.appendChild(div);
-});
-};
-
-btnPush(btn1);
-btnPush(btn2);
-btnPush(btn3);
-btnPush(btn4);
-btnPush(btn5);
-btnPush(btn6);
-btnPush(btn7);
-btnPush(btn8);
-btnPush(btn9);
-btnPush(btn0);
-btnPush(btnEquals);
-btnPush(btnClear);
-btnPush(btnAdd);
-btnPush(btnSubtract);
-btnPush(btnMultiply);
-btnPush(btnDivide); */
 
 
+let myArray1 = [];
+let myStr1 = '';
+let myNum1 = 0;
+let myMem1 = 0;
+let myOperator = '';
+let myResult = 0;
 
-let array1 = [];
-let array2 = [];
-let input1 = 0;
-let input2 = 0;
-let lastOperatorFlag = "input1";
-
-
-
-function pushDigit(button) {
-    button.addEventListener("click", () => {
-    
-    
+function clearDisplay() {
     let oldDiv = document.getElementById('resultDisplay');
     while(oldDiv.firstChild){
      oldDiv.removeChild(oldDiv.firstChild);
     };
+}
 
-    if(lastOperatorFlag == "input1") {
-        array1.push(button.textContent);
-        let strArray1 = array1.join('');
-        input1 = parseInt(strArray1);
-        console.log("input1");
-        const div = document.createElement('div');
-        div.textContent = input1;
-        resultDisplay.appendChild(div);
-    }
-    else if(lastOperatorFlag == "input2") {
-        
-        array2.push(button.textContent);
-        let strArray2 = array2.join('');
-        input2 = parseInt(strArray2);
-        console.log("input2");
-        const div = document.createElement('div');
-        div.textContent = input2;
-        resultDisplay.appendChild(div);
-    };
+function setDisplay(display){
+    const div = document.createElement('div');
+    div.textContent = display;
+    resultDisplay.appendChild(div);
+}
 
+function pushDigit(button) {
+    button.addEventListener("click", () => {
+        clearDisplay();
+        myArray1.push(button.textContent);
+        let myStr1 = myArray1.join('');
+        myNum1 = parseInt(myStr1);
+        setDisplay(myNum1);
     });
 };
 
 function pushOperator(button) {
     button.addEventListener("click", () => {
-    lastOperatorFlag = "input2";
-    let oldDiv = document.getElementById('resultDisplay');
-    while(oldDiv.firstChild){
-        oldDiv.removeChild(oldDiv.firstChild);
-    };
-    const div = document.createElement('div');
-    div.textContent = button.textContent;
-    resultDisplay.appendChild(div);
+        clearDisplay();
+        setDisplay(button.textContent);
+        myOperator = button.textContent;
+        myMem1 = myNum1;
+        myArray1 = [];
+        myStr1 = '';
+        myNum1 = 0;
+
     });
 };
 
 function pushEquals(button) {
-    lastOperatorFlag = "input1";
-
+    button.addEventListener("click", () => {
+        clearDisplay();
+        myResult = operate(myOperator, myMem1, myNum1);
+        setDisplay(myResult);
+        myOperator = '';
+        myMem1 = 0;
+        myArray1 = [];
+        myStr1 = '';
+        myNum1 = myResult;
+        
+    });
 };
 
 function pushClear(button) {
-    lastOperatorFlag = "input1";
-
+    button.addEventListener("click", () => {
+        clearDisplay();
+        myOperator = '';
+        myMem1 = 0;
+        myArray1 = [];
+        myStr1 = '';
+        myNum1 = 0;
+        myResult = 0;
+    });
 };
 
 
@@ -164,4 +139,5 @@ pushOperator(btnAdd);
 pushOperator(btnSubtract);
 pushOperator(btnMultiply);
 pushOperator(btnDivide);
-
+pushEquals(btnEquals);
+pushClear(btnClear);
