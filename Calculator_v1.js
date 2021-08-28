@@ -15,6 +15,7 @@ function divide(x, y) {
     return x / y;
 }
 
+/* This function takes the inputs from the user and executes the calculations using the functions above */
 function operate(operator, x, y){  /* Need to enter a string for operator '+', '-', '*', or '/' */
     if (operator == '+') {
        return add(x, y);
@@ -61,14 +62,7 @@ const btnClear = document.querySelector('#btnClear');
 const btnDelete = document.querySelector('#btnDelete');
 
 
-document.addEventListener('keydown', (event) => {
-    var name = event.key;
-    var code = event.code;
-    // Alert the key name and key code on keydown
-    alert(`Key pressed ${name} \r\n Key code value: ${code}`);
-  }, false);
-
-
+/* Declare Variables */
 let myArray1 = [];
 let myStr1 = '';
 let myNum1 = 0;
@@ -77,8 +71,7 @@ let myOperator = '+';
 let myResult = 0;
 let lastButton = 'Clear';
 
-
-
+/*  This function clears the display on the webpage*/
 function clearDisplay() {
     let oldDiv = document.getElementById('resultDisplay');
     while(oldDiv.firstChild){
@@ -86,12 +79,14 @@ function clearDisplay() {
     };
 }
 
+/* This function updates the display on the webpage*/
 function setDisplay(display){
     const div = document.createElement('div');
     div.textContent = display;
     resultDisplay.appendChild(div);
 }
 
+/* Function that executes when a Digit button is pressed */
 function pushDigit(button) {
     button.addEventListener("click", () => {
         if (lastButton !== 'Equals') {
@@ -105,6 +100,7 @@ function pushDigit(button) {
     });
 };
 
+/* Function that executes when the Decimal button is pressed */
 function pushDecimal(button) {
     button.addEventListener("click", () => {
         if (lastButton =='Digit') {
@@ -127,6 +123,7 @@ function pushDecimal(button) {
     });
 };
 
+/* Function that executes when the Delete button is pressed */
 function pushDelete(button) {
     button.addEventListener("click", () => {
         if (lastButton !== 'Equals') {
@@ -139,6 +136,7 @@ function pushDelete(button) {
     });
 };
 
+/* Function that executes when an Operator button is pressed */
 function pushOperator(button) {
     button.addEventListener("click", () => {         
         if ((lastButton == 'Digit') || (lastButton == 'Decimal') || (lastButton == 'Equals'))  {
@@ -154,6 +152,7 @@ function pushOperator(button) {
     });
 };
 
+/* Function that executes when the Equals button is pressed */
 function pushEquals(button) {
     button.addEventListener("click", () => {
         clearDisplay();
@@ -168,6 +167,7 @@ function pushEquals(button) {
     });
 };
 
+/* Function that executes when the Clear button is pressed */
 function pushClear(button) {
     button.addEventListener("click", () => {
         clearDisplay();
@@ -182,7 +182,7 @@ function pushClear(button) {
 };
 
 
-
+/* The below links the above functions to the html button elements */
 pushDigit(btn1);
 pushDigit(btn2);
 pushDigit(btn3);
@@ -201,3 +201,18 @@ pushOperator(btnDivide);
 pushEquals(btnEquals);
 pushClear(btnClear);
 pushDelete(btnDelete);
+
+
+/* The below links the keyboard to the buttons by simulating a click*/
+let keyboardArray = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '-', '*', '/', '=', 'Backspace'];
+let buttonArray = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnDecimal, btnAdd, btnSubtract, btnMultiply, btnDivide, btnEquals, btnClear, btnDelete];
+
+document.addEventListener('keydown', (event) => {
+    let name = event.key;
+    let code = event.code;
+    if (keyboardArray.includes(name)) {
+        let keyboardIndex = keyboardArray.indexOf(name);
+        let button = buttonArray[keyboardIndex];
+        button.click();
+    };
+  }, false);
